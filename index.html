@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Form Order Keuangan Himpunan</title>
+    <style>
+      :root {
+        --bg: #121212;
+        --card: #1e1e1e;
+        --text: #e3e3e3;
+        --text-dark: #121212;
+        --muted: #a0a0a0;
+        --line: #333333;
+        --primary: #8ab4f8;
+        --primary-dark: #669df6;
+        --success: #81c995;
+        --danger: #f28b82;
+        --surface-variant: #2a2a2a;
+        --input-bg: #2c2c2c;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.5;
+      }
+
+      .page {
+        min-height: 100vh;
+        display: none;
+        padding: 32px 16px;
+      }
+
+      .page.active {
+        display: block;
+      }
+
+      .card {
+        max-width: 820px;
+        margin: 0 auto;
+        background: var(--card);
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        padding: 32px;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+
+      h1 {
+        font-size: 26px;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #ffffff;
+      }
+
+      .sub {
+        color: var(--muted);
+        margin-bottom: 28px;
+        font-size: 15px;
+      }
+
+      .grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+
+      label {
+        display: block;
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: var(--text);
+      }
+
+      input,
+      textarea,
+      select {
+        width: 100%;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 14px 16px;
+        font-size: 14px;
+        outline: none;
+        background: var(--input-bg);
+        color: var(--text);
+        transition: all 0.2s ease;
+      }
+
+      input::placeholder,
+      textarea::placeholder {
+        color: #6b7280;
+      }
+
+      input:focus,
+      textarea:focus,
+      select:focus {
+        border-color: var(--primary);
+        background: #333;
+        box-shadow: 0 0 0 3px rgba(138, 180, 248, 0.15);
+      }
+
+      input[type="date"]::-webkit-calendar-picker-indicator {
+        filter: invert(1);
+        cursor: pointer;
+      }
+
+      .section-title {
+        margin: 32px 0 16px;
+        font-size: 18px;
+        color: #ffffff;
+        border-bottom: 1px solid var(--line);
+        padding-bottom: 8px;
+      }
+
+      .items {
+        display: grid;
+        gap: 16px;
+        margin-bottom: 16px;
+      }
+
+      .item-row {
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 16px;
+        display: grid;
+        grid-template-columns: 1.5fr 1fr 1.2fr auto;
+        gap: 16px;
+        align-items: end;
+        background: var(--surface-variant);
+      }
+
+      .btn-row {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-top: 24px;
+      }
+
+      button {
+        border: none;
+        border-radius: 8px;
+        padding: 12px 20px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s ease;
+      }
+
+      .btn-primary {
+        background: var(--primary);
+        color: var(--text-dark);
+      }
+
+      .btn-primary:hover {
+        background: var(--primary-dark);
+      }
+
+      .btn-secondary {
+        background: var(--surface-variant);
+        color: var(--text);
+        border: 1px solid var(--line);
+      }
+
+      .btn-secondary:hover {
+        background: #3a3a3a;
+      }
+
+      .btn-danger {
+        background: rgba(242, 139, 130, 0.15);
+        color: var(--danger);
+        border: 1px solid var(--danger);
+      }
+
+      .btn-danger:hover {
+        background: rgba(242, 139, 130, 0.25);
+      }
+
+      .btn-success {
+        background: var(--success);
+        color: var(--text-dark);
+      }
+
+      .btn-success:hover {
+        background: #6baf7e;
+      }
+
+      .status-box {
+        padding: 20px;
+        background: rgba(138, 180, 248, 0.08);
+        border: 1px solid rgba(138, 180, 248, 0.2);
+        border-radius: 12px;
+        margin-bottom: 20px;
+      }
+
+      .success-box {
+        padding: 20px;
+        background: rgba(129, 201, 149, 0.1);
+        border: 1px solid rgba(129, 201, 149, 0.3);
+        border-radius: 12px;
+        margin: 20px 0;
+        color: #a8d5b2;
+      }
+
+      .hint {
+        color: var(--muted);
+        font-size: 13px;
+        margin-top: 8px;
+      }
+
+      @media (max-width: 768px) {
+        .card {
+          padding: 24px 16px;
+        }
+
+        .grid-2,
+        .item-row {
+          grid-template-columns: 1fr;
+        }
+
+        .btn-row {
+          flex-direction: column;
+        }
+
+        .btn-row button {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <section id="formPage" class="page active">
+      <div class="card">
+        <h1>Form Order Keuangan</h1>
+        <p class="sub">
+          Isi form di bawah, lalu klik kirim untuk generate file PDF suratnya.
+        </p>
+
+        <div class="grid-2">
+          <div>
+            <label for="nama">Nama Pemohon</label>
+            <input id="nama" placeholder="Contoh: Prasetyo Dwi Mulyono" />
+          </div>
+          <div>
+            <label for="nim">NIM</label>
+            <input id="nim" placeholder="Contoh: 221122112" />
+          </div>
+          <div>
+            <label for="kelas">Kelas</label>
+            <input id="kelas" placeholder="Contoh: 2AEC-3" />
+          </div>
+          <div>
+            <label for="divisi">Divisi</label>
+            <input id="divisi" placeholder="Contoh: Hubungan Dalam" />
+          </div>
+          <div>
+            <label for="jenisPermohonan">Jenis Permohonan</label>
+            <select id="jenisPermohonan">
+              <option value="">Pilih jenis permohonan</option>
+              <option value="Peminjaman">Peminjaman</option>
+              <option value="Permintaan">Permintaan</option>
+            </select>
+          </div>
+          <div>
+            <label for="kota">Kota</label>
+            <input id="kota" value="Bandung" />
+          </div>
+          <div>
+            <label for="tanggal">Tanggal Surat</label>
+            <input id="tanggal" type="date" />
+          </div>
+        </div>
+
+        <h3 class="section-title">Data Rekening / E-Wallet</h3>
+        <div class="grid-2">
+          <div>
+            <label for="bank">Bank / E-Wallet</label>
+            <input id="bank" placeholder="Contoh: BCA / BRI / OVO / DANA" />
+          </div>
+          <div>
+            <label for="noRekening">No Rekening / No HP</label>
+            <input id="noRekening" placeholder="Contoh: 1234567890 / 081234567890" />
+          </div>
+          <div>
+            <label for="atasNama">Atas Nama</label>
+            <input id="atasNama" placeholder="Contoh: Prasetyo Dwi Mulyono" />
+          </div>
+        </div>
+
+        <h3 class="section-title">Daftar Kebutuhan Dana</h3>
+        <div id="items" class="items"></div>
+        <button type="button" class="btn-secondary" onclick="addItem()">
+          + Tambah Item
+        </button>
+
+        <h3 class="section-title">Upload Tanda Tangan</h3>
+        <div class="status-box">
+          <label for="ttdPemohonFile">Tanda Tangan Pemohon (PNG)</label>
+          <input
+            id="ttdPemohonFile"
+            type="file"
+            accept="image/png"
+            style="padding: 10px; background: transparent; border: 1px dashed var(--line)"
+          />
+          <div class="hint">
+            Pastikan pakai format PNG dengan background transparan.
+          </div>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn-primary" type="button" onclick="submitForm()">
+            Generate Surat
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section id="resultPage" class="page">
+      <div class="card">
+        <h1>Sip, Form Berhasil Diproses!</h1>
+        <p class="sub">
+          Surat kamu sudah dibuat otomatis berdasarkan data yang diinput.
+        </p>
+
+        <div class="success-box">
+          <b>File Siap Di-download</b>
+          <div style="margin-top: 8px; color: #e3e3e3">
+            Klik tombol di bawah ini untuk menyimpan PDF suratnya.
+          </div>
+        </div>
+
+        <div id="summaryBox" class="status-box" style="line-height: 1.8"></div>
+
+        <div class="btn-row">
+          <button class="btn-success" type="button" onclick="downloadPdf()">
+            Download PDF
+          </button>
+          <button class="btn-secondary" type="button" onclick="backToForm()">
+            Kembali ke Form
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
+
+    <script>
+      const itemsEl = document.getElementById("items");
+
+      const CONFIG = {
+        kahimNama: "Caraka Akramasena Nurhadi",
+        kahimNim: "224442077",
+        ttdKahimPath: "foto/ttd_kahim.png",
+        kopSuratPath: "foto/kop_surat.png",
+      };
+
+      let submittedData = null;
+      let pemohonTtdDataUrl = "";
+
+      function formatRupiah(value) {
+        const num = Number(value || 0);
+        return "Rp " + new Intl.NumberFormat("id-ID").format(num);
+      }
+
+      function formatInputRupiah(value) {
+        const numberOnly = String(value || "").replace(/\D/g, "");
+        if (!numberOnly) return "";
+        return new Intl.NumberFormat("id-ID").format(Number(numberOnly));
+      }
+
+      function parseRupiahInput(value) {
+        return Number(String(value || "").replace(/\D/g, "")) || 0;
+      }
+
+      function handleNominalInput(input) {
+        input.value = formatInputRupiah(input.value);
+      }
+
+      function formatTanggalIndonesia(dateStr) {
+        if (!dateStr) return "-";
+        const date = new Date(dateStr + "T00:00:00");
+        return new Intl.DateTimeFormat("id-ID", {
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        }).format(date);
+      }
+
+      function escapeHtml(str) {
+        return String(str)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+      }
+
+      function shortenName(name, maxLength = 22) {
+        const clean = String(name || "").trim().replace(/\s+/g, " ");
+        if (!clean) return "-";
+        if (clean.length <= maxLength) return clean;
+
+        const parts = clean.split(" ");
+        if (parts.length === 1) return clean.slice(0, maxLength - 1) + ".";
+
+        const last = parts[parts.length - 1];
+        const shortenedLast = last.charAt(0).toUpperCase() + ".";
+        const base = parts.slice(0, -1).join(" ");
+        const candidate = `${base} ${shortenedLast}`;
+
+        if (candidate.length <= maxLength) return candidate;
+
+        let tempParts = [...parts];
+        tempParts[tempParts.length - 1] = shortenedLast;
+
+        while (tempParts.join(" ").length > maxLength && tempParts.length > 2) {
+          tempParts.splice(tempParts.length - 2, 1);
+        }
+
+        const compact = tempParts.join(" ");
+        if (compact.length <= maxLength) return compact;
+
+        return compact.slice(0, maxLength - 1) + ".";
+      }
+
+      function addItem(data = {}) {
+        const row = document.createElement("div");
+        row.className = "item-row";
+        row.innerHTML = `
+          <div>
+            <label>Keperluan</label>
+            <input class="item-keperluan" placeholder="Contoh: Dana Proker ..." value="${data.keperluan || ""}">
+          </div>
+          <div>
+            <label>Nominal</label>
+            <input class="item-nominal" type="text" inputmode="numeric" placeholder="50.000" value="${
+              data.nominal ? formatInputRupiah(data.nominal) : ""
+            }" oninput="handleNominalInput(this)">
+          </div>
+          <div>
+            <label>Keterangan</label>
+            <input class="item-keterangan" placeholder="Opsional" value="${data.keterangan || ""}">
+          </div>
+          <div style="text-align: right;">
+            <button type="button" class="btn-danger" onclick="this.closest('.item-row').remove()">Hapus</button>
+          </div>
+        `;
+        itemsEl.appendChild(row);
+      }
+
+      function collectItems() {
+        return [...document.querySelectorAll(".item-row")]
+          .map((row) => ({
+            keperluan: row.querySelector(".item-keperluan").value.trim(),
+            nominal: parseRupiahInput(row.querySelector(".item-nominal").value),
+            keterangan: row.querySelector(".item-keterangan").value.trim(),
+          }))
+          .filter((item) => item.keperluan || item.nominal || item.keterangan);
+      }
+
+      function readPemohonSignature() {
+        return new Promise((resolve, reject) => {
+          const fileInput = document.getElementById("ttdPemohonFile");
+          const file = fileInput.files[0];
+
+          if (!file) {
+            reject(new Error("Tanda tangan pemohon belum diupload."));
+            return;
+          }
+
+          if (file.type !== "image/png") {
+            reject(new Error("File tanda tangan pemohon harus berformat PNG."));
+            return;
+          }
+
+          const reader = new FileReader();
+          reader.onload = (e) => resolve(e.target.result);
+          reader.onerror = () => reject(new Error("Gagal membaca file tanda tangan."));
+          reader.readAsDataURL(file);
+        });
+      }
+
+      async function submitForm() {
+        try {
+          const nama = document.getElementById("nama").value.trim();
+          const nim = document.getElementById("nim").value.trim();
+          const kelas = document.getElementById("kelas").value.trim();
+          const divisi = document.getElementById("divisi").value.trim();
+          const jenisPermohonan = document.getElementById("jenisPermohonan").value.trim();
+          const kota = document.getElementById("kota").value.trim() || "Bandung";
+          const tanggal = document.getElementById("tanggal").value;
+
+          const bank = document.getElementById("bank").value.trim();
+          const noRekening = document.getElementById("noRekening").value.trim();
+          const atasNama = document.getElementById("atasNama").value.trim();
+
+          const items = collectItems();
+
+          if (!nama || !nim || !kelas || !divisi || !jenisPermohonan || !tanggal || !bank || !noRekening || !atasNama) {
+            alert("Eh, jangan lupa lengkapi semua data pemohon dan rekeningnya dulu ya.");
+            return;
+          }
+
+          if (items.length === 0) {
+            alert("Minimal isi 1 item kebutuhan dana dong.");
+            return;
+          }
+
+          pemohonTtdDataUrl = await readPemohonSignature();
+
+          submittedData = {
+            nama,
+            nim,
+            kelas,
+            divisi,
+            jenisPermohonan,
+            kota,
+            tanggal,
+            bank,
+            noRekening,
+            atasNama,
+            items,
+            kahimNama: CONFIG.kahimNama,
+            kahimNim: CONFIG.kahimNim,
+            ttdPemohon: pemohonTtdDataUrl,
+            ttdKahim: CONFIG.ttdKahimPath,
+            kopSurat: CONFIG.kopSuratPath,
+          };
+
+          renderSummary();
+          showPage("resultPage");
+        } catch (error) {
+          alert(error.message || "Waduh, ada error pas kirim form.");
+        }
+      }
+
+      function renderSummary() {
+        if (!submittedData) return;
+
+        const total = submittedData.items.reduce(
+          (sum, item) => sum + Number(item.nominal || 0),
+          0
+        );
+
+        document.getElementById("summaryBox").innerHTML = `
+          <div><b>Nama:</b> ${escapeHtml(submittedData.nama)}</div>
+          <div><b>NIM:</b> ${escapeHtml(submittedData.nim)}</div>
+          <div><b>Divisi:</b> ${escapeHtml(submittedData.divisi)}</div>
+          <div><b>Jenis Permohonan:</b> ${escapeHtml(submittedData.jenisPermohonan)}</div>
+
+          <div style="margin-top: 10px; border-top: 1px solid var(--line); padding-top: 10px;">
+            <b>Bank / E-Wallet:</b> ${escapeHtml(submittedData.bank)}<br>
+            <b>No Rekening / No HP:</b> ${escapeHtml(submittedData.noRekening)}<br>
+            <b>Atas Nama:</b> ${escapeHtml(submittedData.atasNama)}
+          </div>
+
+          <div style="margin-top: 10px; border-top: 1px solid var(--line); padding-top: 10px;">
+            <b>Total Item:</b> ${submittedData.items.length} item<br>
+            <b style="color: var(--primary);">Total Dana:</b> ${formatRupiah(total)}
+          </div>
+        `;
+      }
+
+      function showPage(pageId) {
+        document.querySelectorAll(".page").forEach((page) => page.classList.remove("active"));
+        document.getElementById(pageId).classList.add("active");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function backToForm() {
+        showPage("formPage");
+      }
+
+      function loadImageAsDataUrl(src) {
+        return new Promise((resolve) => {
+          if (!src) {
+            resolve("");
+            return;
+          }
+
+          if (src.startsWith("data:image")) {
+            resolve(src);
+            return;
+          }
+
+          const img = new Image();
+          img.crossOrigin = "anonymous";
+
+          img.onload = function () {
+            const canvas = document.createElement("canvas");
+            canvas.width = img.naturalWidth;
+            canvas.height = img.naturalHeight;
+
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0);
+
+            try {
+              resolve(canvas.toDataURL("image/png"));
+            } catch (e) {
+              resolve("");
+            }
+          };
+
+          img.onerror = function () {
+            resolve("");
+          };
+
+          img.src = src;
+        });
+      }
+
+      async function downloadPdf() {
+        if (!submittedData) {
+          alert("Data form belum tersedia nih.");
+          return;
+        }
+
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF("p", "mm", "a4");
+
+        const marginX = 25;
+        const pageWidth = 210;
+        const contentWidth = pageWidth - marginX * 2;
+
+        const total = submittedData.items.reduce(
+          (sum, item) => sum + Number(item.nominal || 0),
+          0
+        );
+
+        const kopDataUrl = await loadImageAsDataUrl(submittedData.kopSurat);
+        const ttdKahimDataUrl = await loadImageAsDataUrl(submittedData.ttdKahim);
+        const ttdPemohonDataUrl = submittedData.ttdPemohon;
+
+        let y = 14;
+
+        if (kopDataUrl) {
+          pdf.addImage(kopDataUrl, "PNG", marginX, y, contentWidth, 28);
+          y += 34;
+        }
+
+        pdf.setFont("times", "bold");
+        pdf.setFontSize(13);
+        pdf.text("FORM ORDER KEUANGAN", pageWidth / 2, y, { align: "center" });
+        y += 12;
+
+        pdf.setFont("times", "bold");
+        pdf.setFontSize(11);
+        pdf.text("Data Pemohon:", marginX, y);
+        y += 6;
+
+        pdf.setFont("times", "normal");
+        pdf.text(`1. Nama`, marginX, y);
+        pdf.text(`: ${submittedData.nama}`, marginX + 42, y);
+        y += 6;
+
+        pdf.text(`2. Kelas / NIM`, marginX, y);
+        pdf.text(`: ${submittedData.kelas} / ${submittedData.nim}`, marginX + 42, y);
+        y += 6;
+
+        pdf.text(`3. Divisi`, marginX, y);
+        pdf.text(`: ${submittedData.divisi}`, marginX + 42, y);
+        y += 6;
+
+        pdf.text(`4. Jenis permohonan`, marginX, y);
+        pdf.text(`: ${submittedData.jenisPermohonan}`, marginX + 42, y);
+        y += 11;
+
+        pdf.setFont("times", "bold");
+        pdf.text("Data Rekening / E-Wallet:", marginX, y);
+        y += 6;
+
+        pdf.setFont("times", "normal");
+        pdf.text(`1. Bank / E-Wallet`, marginX, y);
+        pdf.text(`: ${submittedData.bank}`, marginX + 42, y);
+        y += 6;
+
+        pdf.text(`2. No Rekening / No HP`, marginX, y);
+        pdf.text(`: ${submittedData.noRekening}`, marginX + 42, y);
+        y += 6;
+
+        pdf.text(`3. Atas Nama`, marginX, y);
+        pdf.text(`: ${submittedData.atasNama}`, marginX + 42, y);
+        y += 9;
+
+        const tableBody = submittedData.items.map((item, index) => [
+          String(index + 1),
+          item.keperluan || "-",
+          formatRupiah(item.nominal),
+          item.keterangan || "-",
+        ]);
+
+        tableBody.push([
+          {
+            content: "Total Keseluruhan",
+            colSpan: 2,
+            styles: { halign: "right", fontStyle: "bold" },
+          },
+          {
+            content: formatRupiah(total),
+            styles: { fontStyle: "bold" },
+          },
+          "",
+        ]);
+
+        pdf.autoTable({
+          startY: y,
+          margin: { left: marginX, right: marginX },
+          head: [["No", "Keperluan Permohonan Dana", "Jumlah Dana yang Dimohon", "Keterangan"]],
+          body: tableBody,
+          theme: "grid",
+          styles: {
+            font: "times",
+            fontSize: 10,
+            textColor: [0, 0, 0],
+            lineColor: [0, 0, 0],
+            lineWidth: 0.2,
+            cellPadding: 2.5,
+            valign: "top",
+          },
+          headStyles: {
+            fillColor: [240, 240, 240],
+            textColor: [0, 0, 0],
+            fontStyle: "bold",
+            halign: "center",
+          },
+          columnStyles: {
+            0: { cellWidth: 12, halign: "center" },
+            1: { cellWidth: 70 },
+            2: { cellWidth: 45 },
+            3: { cellWidth: contentWidth - 12 - 70 - 45 },
+          },
+        });
+
+        y = pdf.lastAutoTable.finalY + 10;
+
+        pdf.setFont("times", "normal");
+        pdf.setFontSize(11);
+        pdf.text(
+          `${submittedData.kota}, ${formatTanggalIndonesia(submittedData.tanggal)}`,
+          pageWidth - marginX,
+          y,
+          { align: "right" }
+        );
+
+        y += 12;
+
+        const leftCenterX = marginX + contentWidth * 0.25;
+        const rightCenterX = marginX + contentWidth * 0.75;
+
+        pdf.setFont("times", "bold");
+        pdf.text("Ketua HIMAMO", leftCenterX, y, { align: "center" });
+        pdf.text("Pemohon", rightCenterX, y, { align: "center" });
+        y += 5;
+        pdf.text("POLMAN Bandung", leftCenterX, y, { align: "center" });
+
+        const imageY = y + 5;
+
+        if (ttdKahimDataUrl) {
+          pdf.addImage(ttdKahimDataUrl, "PNG", leftCenterX - 18, imageY, 36, 20);
+        }
+
+        if (ttdPemohonDataUrl) {
+          pdf.addImage(ttdPemohonDataUrl, "PNG", rightCenterX - 18, imageY, 36, 20);
+        }
+
+        y = imageY + 27;
+
+        const displayKahimName = shortenName(submittedData.kahimNama, 22);
+        const displayPemohonName = shortenName(submittedData.nama, 22);
+
+        pdf.setFont("times", "bold");
+        pdf.text(displayKahimName, leftCenterX, y, { align: "center" });
+        pdf.text(displayPemohonName, rightCenterX, y, { align: "center" });
+
+        const kahimNameWidth = pdf.getTextWidth(displayKahimName);
+        const pemohonNameWidth = pdf.getTextWidth(displayPemohonName);
+
+        pdf.line(leftCenterX - kahimNameWidth / 2, y + 1, leftCenterX + kahimNameWidth / 2, y + 1);
+        pdf.line(rightCenterX - pemohonNameWidth / 2, y + 1, rightCenterX + pemohonNameWidth / 2, y + 1);
+
+        y += 6;
+
+        pdf.setFont("times", "normal");
+        pdf.text(`NIM. ${submittedData.kahimNim}`, leftCenterX, y, { align: "center" });
+        pdf.text(`NIM. ${submittedData.nim}`, rightCenterX, y, { align: "center" });
+
+        pdf.save(`Order-Keuangan-${submittedData.nama.replace(/\s+/g, "-")}.pdf`);
+      }
+
+      addItem({ keperluan: "", nominal: "", keterangan: "" });
+
+      const today = new Date();
+      const yyyy = today.getFullYear();
+      const mm = String(today.getMonth() + 1).padStart(2, "0");
+      const dd = String(today.getDate()).padStart(2, "0");
+      document.getElementById("tanggal").value = `${yyyy}-${mm}-${dd}`;
+    </script>
+  </body>
+</html>
