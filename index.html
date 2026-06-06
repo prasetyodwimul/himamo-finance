@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
   <head>
     <meta charset="UTF-8" />
@@ -292,7 +292,10 @@
           </div>
           <div>
             <label for="noRekening">No Rekening / No HP</label>
-            <input id="noRekening" placeholder="Contoh: 1234567890 / 081234567890" />
+            <input
+              id="noRekening"
+              placeholder="Contoh: 1234567890 / 081234567890"
+            />
           </div>
           <div>
             <label for="atasNama">Atas Nama</label>
@@ -313,7 +316,11 @@
             id="ttdPemohonFile"
             type="file"
             accept="image/png"
-            style="padding: 10px; background: transparent; border: 1px dashed var(--line)"
+            style="
+              padding: 10px;
+              background: transparent;
+              border: 1px dashed var(--line);
+            "
           />
           <div class="hint">
             Pastikan pakai format PNG dengan background transparan.
@@ -362,8 +369,8 @@
       const itemsEl = document.getElementById("items");
 
       const CONFIG = {
-        kahimNama: "Caraka Akramasena Nurhadi",
-        kahimNim: "224442077",
+        kahimNama: "Firman Rachmawan",
+        kahimNim: "224442079",
         ttdKahimPath: "foto/ttd_kahim.png",
         kopSuratPath: "foto/kop_surat.png",
       };
@@ -410,7 +417,9 @@
       }
 
       function shortenName(name, maxLength = 22) {
-        const clean = String(name || "").trim().replace(/\s+/g, " ");
+        const clean = String(name || "")
+          .trim()
+          .replace(/\s+/g, " ");
         if (!clean) return "-";
         if (clean.length <= maxLength) return clean;
 
@@ -489,7 +498,8 @@
 
           const reader = new FileReader();
           reader.onload = (e) => resolve(e.target.result);
-          reader.onerror = () => reject(new Error("Gagal membaca file tanda tangan."));
+          reader.onerror = () =>
+            reject(new Error("Gagal membaca file tanda tangan."));
           reader.readAsDataURL(file);
         });
       }
@@ -500,8 +510,11 @@
           const nim = document.getElementById("nim").value.trim();
           const kelas = document.getElementById("kelas").value.trim();
           const divisi = document.getElementById("divisi").value.trim();
-          const jenisPermohonan = document.getElementById("jenisPermohonan").value.trim();
-          const kota = document.getElementById("kota").value.trim() || "Bandung";
+          const jenisPermohonan = document
+            .getElementById("jenisPermohonan")
+            .value.trim();
+          const kota =
+            document.getElementById("kota").value.trim() || "Bandung";
           const tanggal = document.getElementById("tanggal").value;
 
           const bank = document.getElementById("bank").value.trim();
@@ -510,8 +523,20 @@
 
           const items = collectItems();
 
-          if (!nama || !nim || !kelas || !divisi || !jenisPermohonan || !tanggal || !bank || !noRekening || !atasNama) {
-            alert("Eh, jangan lupa lengkapi semua data pemohon dan rekeningnya dulu ya.");
+          if (
+            !nama ||
+            !nim ||
+            !kelas ||
+            !divisi ||
+            !jenisPermohonan ||
+            !tanggal ||
+            !bank ||
+            !noRekening ||
+            !atasNama
+          ) {
+            alert(
+              "Eh, jangan lupa lengkapi semua data pemohon dan rekeningnya dulu ya.",
+            );
             return;
           }
 
@@ -553,7 +578,7 @@
 
         const total = submittedData.items.reduce(
           (sum, item) => sum + Number(item.nominal || 0),
-          0
+          0,
         );
 
         document.getElementById("summaryBox").innerHTML = `
@@ -576,7 +601,9 @@
       }
 
       function showPage(pageId) {
-        document.querySelectorAll(".page").forEach((page) => page.classList.remove("active"));
+        document
+          .querySelectorAll(".page")
+          .forEach((page) => page.classList.remove("active"));
         document.getElementById(pageId).classList.add("active");
         window.scrollTo({ top: 0, behavior: "smooth" });
       }
@@ -638,11 +665,13 @@
 
         const total = submittedData.items.reduce(
           (sum, item) => sum + Number(item.nominal || 0),
-          0
+          0,
         );
 
         const kopDataUrl = await loadImageAsDataUrl(submittedData.kopSurat);
-        const ttdKahimDataUrl = await loadImageAsDataUrl(submittedData.ttdKahim);
+        const ttdKahimDataUrl = await loadImageAsDataUrl(
+          submittedData.ttdKahim,
+        );
         const ttdPemohonDataUrl = submittedData.ttdPemohon;
 
         let y = 14;
@@ -668,7 +697,11 @@
         y += 6;
 
         pdf.text(`2. Kelas / NIM`, marginX, y);
-        pdf.text(`: ${submittedData.kelas} / ${submittedData.nim}`, marginX + 42, y);
+        pdf.text(
+          `: ${submittedData.kelas} / ${submittedData.nim}`,
+          marginX + 42,
+          y,
+        );
         y += 6;
 
         pdf.text(`3. Divisi`, marginX, y);
@@ -719,7 +752,14 @@
         pdf.autoTable({
           startY: y,
           margin: { left: marginX, right: marginX },
-          head: [["No", "Keperluan Permohonan Dana", "Jumlah Dana yang Dimohon", "Keterangan"]],
+          head: [
+            [
+              "No",
+              "Keperluan Permohonan Dana",
+              "Jumlah Dana yang Dimohon",
+              "Keterangan",
+            ],
+          ],
           body: tableBody,
           theme: "grid",
           styles: {
@@ -753,7 +793,7 @@
           `${submittedData.kota}, ${formatTanggalIndonesia(submittedData.tanggal)}`,
           pageWidth - marginX,
           y,
-          { align: "right" }
+          { align: "right" },
         );
 
         y += 12;
@@ -762,19 +802,33 @@
         const rightCenterX = marginX + contentWidth * 0.75;
 
         pdf.setFont("times", "bold");
-        pdf.text("Ketua HIMAMO", leftCenterX, y, { align: "center" });
+        pdf.text("Pelaksana Tugas (PLT)", leftCenterX, y, { align: "center" });
         pdf.text("Pemohon", rightCenterX, y, { align: "center" });
         y += 5;
-        pdf.text("POLMAN Bandung", leftCenterX, y, { align: "center" });
+        pdf.text("HIMAMO POLMAN Bandung", leftCenterX, y, { align: "center" });
 
         const imageY = y + 5;
 
         if (ttdKahimDataUrl) {
-          pdf.addImage(ttdKahimDataUrl, "PNG", leftCenterX - 18, imageY, 36, 20);
+          pdf.addImage(
+            ttdKahimDataUrl,
+            "PNG",
+            leftCenterX - 18,
+            imageY,
+            36,
+            20,
+          );
         }
 
         if (ttdPemohonDataUrl) {
-          pdf.addImage(ttdPemohonDataUrl, "PNG", rightCenterX - 18, imageY, 36, 20);
+          pdf.addImage(
+            ttdPemohonDataUrl,
+            "PNG",
+            rightCenterX - 18,
+            imageY,
+            36,
+            20,
+          );
         }
 
         y = imageY + 27;
@@ -789,16 +843,32 @@
         const kahimNameWidth = pdf.getTextWidth(displayKahimName);
         const pemohonNameWidth = pdf.getTextWidth(displayPemohonName);
 
-        pdf.line(leftCenterX - kahimNameWidth / 2, y + 1, leftCenterX + kahimNameWidth / 2, y + 1);
-        pdf.line(rightCenterX - pemohonNameWidth / 2, y + 1, rightCenterX + pemohonNameWidth / 2, y + 1);
+        pdf.line(
+          leftCenterX - kahimNameWidth / 2,
+          y + 1,
+          leftCenterX + kahimNameWidth / 2,
+          y + 1,
+        );
+        pdf.line(
+          rightCenterX - pemohonNameWidth / 2,
+          y + 1,
+          rightCenterX + pemohonNameWidth / 2,
+          y + 1,
+        );
 
         y += 6;
 
         pdf.setFont("times", "normal");
-        pdf.text(`NIM. ${submittedData.kahimNim}`, leftCenterX, y, { align: "center" });
-        pdf.text(`NIM. ${submittedData.nim}`, rightCenterX, y, { align: "center" });
+        pdf.text(`NIM. ${submittedData.kahimNim}`, leftCenterX, y, {
+          align: "center",
+        });
+        pdf.text(`NIM. ${submittedData.nim}`, rightCenterX, y, {
+          align: "center",
+        });
 
-        pdf.save(`Order-Keuangan-${submittedData.nama.replace(/\s+/g, "-")}.pdf`);
+        pdf.save(
+          `Order-Keuangan-${submittedData.nama.replace(/\s+/g, "-")}.pdf`,
+        );
       }
 
       addItem({ keperluan: "", nominal: "", keterangan: "" });
